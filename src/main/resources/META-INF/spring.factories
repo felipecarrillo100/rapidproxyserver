@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.felipecarrillo100.rapidproxyserver.SharedConfigurationReference
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.felipecarrillo100.SharedConfigurationReference

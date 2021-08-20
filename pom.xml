@@ -10,7 +10,7 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.felipecarrillo100.rapidproxyserver</groupId>
+  <groupId>io.github.felipecarrillo100</groupId>
   <artifactId>rapidproxyserver</artifactId>
   <version>0.0.1</version>
 

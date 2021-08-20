@@ -1,4 +1,4 @@
-package com.felipecarrillo100.rapidproxyserver.controllers;
+package io.github.felipecarrillo100.controllers;
 
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;

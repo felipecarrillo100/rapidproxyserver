@@ -1,4 +1,4 @@
-package com.felipecarrillo100.rapidproxyserver.components;
+package io.github.felipecarrillo100.components;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;

@@ -1,4 +1,4 @@
-package com.felipecarrillo100.rapidproxyserver.controllers;
+package io.github.felipecarrillo100.controllers;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -9,12 +9,16 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
@@ -22,10 +26,10 @@ import java.util.Map;
 
 @Controller
 @ConditionalOnExpression("${ogc.proxy.enabled:false}")
-@RequestMapping("${ogc.proxy.baseurl:/proxy}")
-public class OGCProxy implements InitializingBean {
+@RequestMapping("${ogc.proxy.baseurl3d:/proxy3d}")
+public class OGCProxy3D implements InitializingBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(OGCProxy.class);
+    private static final Logger logger = LoggerFactory.getLogger(OGCProxy3D.class);
 
     @Value("${ogc.proxy.cors.enabled:true}")
     private Boolean CORS_ENABLED;
@@ -43,49 +47,23 @@ public class OGCProxy implements InitializingBean {
     @Value("${ogc.proxy.cors.ALLOW:GET, POST, OPTIONS, PUT, PATCH, DELETE}")
     private String ALLOW;
 
-
     @Value("${ogc.proxy.securedkey:}")
     private String securedKey;
 
     @Value("${ogc.proxy.enabled:false}")
     private Boolean enabled;
 
-    @Value("${ogc.proxy.baseurl:/proxy}")
+    @Value("${ogc.proxy.baseurl3d:/proxy3d}")
     private String baseurl;
 
-    @GetMapping("/{uid}/{index}")
+    @GetMapping("/{uid}/{index}/**")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-        // logger.info(uid + "/" + index);
-        forwardRequest(index, "GET", req, resp);
+        forwardRequest(uid, index, "GET", req, resp);
     }
 
-    @DeleteMapping("/{uid}/{index}")
-    public void deleteMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-        // logger.info(uid + "/" + index);
-        forwardRequest(index, "DELETE", req, resp);
-    }
-
-    @PostMapping("/{uid}/{index}")
-    public void postMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-        // logger.info(uid + "/" + index);
-        forwardRequest(index, "POST", req, resp);
-    }
-
-    @PutMapping("/{uid}/{index}")
-    public void putMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-        // logger.info(uid + "/" + index);
-        forwardRequest(index, "PUT", req, resp);
-    }
-
-    @PatchMapping("/{uid}/{index}")
-    public void PatchMapping(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-        // logger.info(uid + "/" + index);
-        forwardRequest(index, "PATCH", req, resp);
-    }
-
-
-//    @RequestMapping(value="/{uid}/{index}", method = RequestMethod.OPTIONS)
+//    @RequestMapping(value="/{uid}/{index}/**", method = RequestMethod.OPTIONS)
 //    public void optionsMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
+//
 //        // logger.info(uid + "/" + index);
 //        String content = "{\"methods\":[\"POST\",\"GET\",\"OPTIONS\"]}";
 //        resp.setStatus( 200 );
@@ -104,14 +82,18 @@ public class OGCProxy implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("** Super proxy **");
+        logger.info("** Proxy 3D **");
         if (enabled) {
-            logger.info(" * Proxy has been enabled at: " + baseurl + "/{uid}/{index}");
+            logger.info(" * Proxy has been enabled at: " + baseurl + "/{uid}/{index}/**");
         }
     }
 
-    private void forwardRequest(String index, String method, HttpServletRequest req, HttpServletResponse resp) {
-        final boolean hasoutbody = (method.equals("POST") || method.equals("PATCH") || method.equals("PUT"));
+    private void forwardRequest(String uid, String index, String method, HttpServletRequest req, HttpServletResponse resp) {
+        String urltarget = baseurl + "/" + uid + "/" + index;
+        String fullPath = (String) req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        String subPath = fullPath.substring(urltarget.length());
+
+        final boolean hasoutbody = false;
         String targetUri = "";
         String queryString = req.getQueryString();
 
@@ -123,7 +105,7 @@ public class OGCProxy implements InitializingBean {
         if (urls != null) {
             String url = (String) urls.get(index);
             if (url != null) {
-                targetUri = url;
+                targetUri = url + subPath;
             }
         }
         if (!securedKey.equals("")) {
@@ -165,14 +147,6 @@ public class OGCProxy implements InitializingBean {
 
             // write BODY
             final byte[] buffer = new byte[16384];
-            while (hasoutbody) {
-                final int read;
-                read = req.getInputStream().read(buffer);
-                if (read <= 0) {
-                    break;
-                }
-                conn.getOutputStream().write(buffer, 0, read);
-            }
 
             int responseCode = conn.getResponseCode();
             if (responseCode==401)
