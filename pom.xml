@@ -14,9 +14,31 @@
   <artifactId>rapidproxyserver</artifactId>
   <version>0.0.1</version>
 
-  <name>demolibrary</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>rapidproxyserver</name>
+  <description>A server side implementation of rapidproxy</description>
+  <url>https://github.com/felipecarrillo100/rapidproxyserver</url>
+
+  <licenses>
+    <license>
+      <name>Apache License</name>
+      <url>https://github.com/felipecarrillo100/rapidproxyserver/blob/main/LICENSE</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>felipe carrillo</name>
+      <email>felipecarrillo100@gmail.com</email>
+      <organization>io.github.felipecarrillo100</organization>
+      <organizationUrl>https://github.com/felipecarrillo100</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/felipecarrillo100/rapidproxyserver.git</connection>
+    <developerConnection>scm:git:ssh://github.com/felipecarrillo100/rapidproxyserver.git</developerConnection>
+    <url>https://github.com/felipecarrillo100/rapidproxyserver</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
