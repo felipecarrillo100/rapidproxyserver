@@ -44,11 +44,11 @@ public class HandleOptionsFilter implements Filter {
 
     /**
      * doFilter:  Takes care of answering the options request (preflight) required by CORS
-     * @param req
-     * @param res
-     * @param chain
-     * @throws IOException
-     * @throws ServletException
+     * @param req http request
+     * @param res http response
+     * @param chain chain of filters
+     * @throws IOException exceptions
+     * @throws ServletException servelet exceptions
      */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {

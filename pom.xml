@@ -44,7 +44,7 @@
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
       <id>ossrh</id>
@@ -98,7 +98,6 @@
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
@@ -107,9 +106,8 @@
           <extensions>true</extensions>
           <configuration>
             <serverId>ossrh</serverId>
-            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-            <!-- Set this to true and the release will automatically proceed and sync to Central Repository will follow  -->
-            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>false</autoReleaseAfterClose>
           </configuration>
         </plugin>
 
@@ -155,12 +153,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.2.1</version>
           <executions>
             <execution>
-              <id>attach-sources</id>
+              <id>attach-javadocs</id>
               <goals>
-                <goal>jar-no-fork</goal>
+                <goal>jar</goal>
               </goals>
             </execution>
           </executions>
@@ -193,6 +190,5 @@
           </executions>
         </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>

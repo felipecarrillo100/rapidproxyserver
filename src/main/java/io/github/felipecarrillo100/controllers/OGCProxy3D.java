@@ -58,11 +58,11 @@ public class OGCProxy3D implements InitializingBean {
 
     /**
      * getMethod Controller listens at /{yourproxypath}/{uid}/{index}/**
-     * @param uid
-     * @param index
-     * @param req
-     * @param resp
-     * @param principal
+     * @param uid a unique ide generated at the browser to ensure the url is unique and prevent caching
+     * @param index a value that identifies the url we try to reach
+     * @param req  the http request
+     * @param resp the http respose
+     * @param principal security information
      */
     @GetMapping("/{uid}/{index}/**")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {

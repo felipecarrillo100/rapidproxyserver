@@ -55,11 +55,11 @@ public class OGCProxy implements InitializingBean {
 
     /**
      * getMethod Controller listens at /{yourproxypath}/{uid}/{index}
-     * @param uid
-     * @param index
-     * @param req
-     * @param resp
-     * @param principal
+     * @param uid a unique ide generated at the browser to ensure the url is unique and prevent caching
+     * @param index a value that identifies the url we try to reach
+     * @param req  the http request
+     * @param resp the http respose
+     * @param principal security information
      */
     @GetMapping("/{uid}/{index}")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
@@ -69,11 +69,11 @@ public class OGCProxy implements InitializingBean {
 
     /**
      * deleteMethod Controller listens at /{yourproxypath}/{uid}/{index}
-     * @param uid
-     * @param index
-     * @param req
-     * @param resp
-     * @param principal
+     * @param uid a unique ide generated at the browser to ensure the url is unique and prevent caching
+     * @param index a value that identifies the url we try to reach
+     * @param req  the http request
+     * @param resp the http respose
+     * @param principal security information
      */
     @DeleteMapping("/{uid}/{index}")
     public void deleteMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
@@ -83,11 +83,11 @@ public class OGCProxy implements InitializingBean {
 
     /**
      * postMethod Controller listens at /{yourproxypath}/{uid}/{index}
-     * @param uid
-     * @param index
-     * @param req
-     * @param resp
-     * @param principal
+     * @param uid a unique ide generated at the browser to ensure the url is unique and prevent caching
+     * @param index a value that identifies the url we try to reach
+     * @param req  the http request
+     * @param resp the http respose
+     * @param principal security information
      */
     @PostMapping("/{uid}/{index}")
     public void postMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
@@ -97,11 +97,11 @@ public class OGCProxy implements InitializingBean {
 
     /**
      * putMethod Controller listens at /{yourproxypath}/{uid}/{index}
-     * @param uid
-     * @param index
-     * @param req
-     * @param resp
-     * @param principal
+     * @param uid a unique ide generated at the browser to ensure the url is unique and prevent caching
+     * @param index a value that identifies the url we try to reach
+     * @param req  the http request
+     * @param resp the http respose
+     * @param principal security information
      */
     @PutMapping("/{uid}/{index}")
     public void putMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
@@ -111,11 +111,11 @@ public class OGCProxy implements InitializingBean {
 
     /**
      * patchMethod Controller listens at /{yourproxypath}/{uid}/{index}
-     * @param uid
-     * @param index
-     * @param req
-     * @param resp
-     * @param principal
+     * @param uid a unique ide generated at the browser to ensure the url is unique and prevent caching
+     * @param index a value that identifies the url we try to reach
+     * @param req  the http request
+     * @param resp the http respose
+     * @param principal security information
      */
     @PatchMapping("/{uid}/{index}")
     public void patchMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
