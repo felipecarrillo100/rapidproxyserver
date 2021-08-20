@@ -56,6 +56,14 @@ public class OGCProxy3D implements InitializingBean {
     @Value("${ogc.proxy.baseurl3d:/proxy3d}")
     private String baseurl;
 
+    /**
+     * getMethod Controller listens at /{yourproxypath}/{uid}/{index}/**
+     * @param uid
+     * @param index
+     * @param req
+     * @param resp
+     * @param principal
+     */
     @GetMapping("/{uid}/{index}/**")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         forwardRequest(uid, index, "GET", req, resp);

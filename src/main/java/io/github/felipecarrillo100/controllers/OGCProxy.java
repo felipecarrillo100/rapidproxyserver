@@ -53,54 +53,75 @@ public class OGCProxy implements InitializingBean {
     @Value("${ogc.proxy.baseurl:/proxy}")
     private String baseurl;
 
+    /**
+     * getMethod Controller listens at /{yourproxypath}/{uid}/{index}
+     * @param uid
+     * @param index
+     * @param req
+     * @param resp
+     * @param principal
+     */
     @GetMapping("/{uid}/{index}")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
         forwardRequest(index, "GET", req, resp);
     }
 
+    /**
+     * deleteMethod Controller listens at /{yourproxypath}/{uid}/{index}
+     * @param uid
+     * @param index
+     * @param req
+     * @param resp
+     * @param principal
+     */
     @DeleteMapping("/{uid}/{index}")
     public void deleteMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
         forwardRequest(index, "DELETE", req, resp);
     }
 
+    /**
+     * postMethod Controller listens at /{yourproxypath}/{uid}/{index}
+     * @param uid
+     * @param index
+     * @param req
+     * @param resp
+     * @param principal
+     */
     @PostMapping("/{uid}/{index}")
     public void postMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
         forwardRequest(index, "POST", req, resp);
     }
 
+    /**
+     * putMethod Controller listens at /{yourproxypath}/{uid}/{index}
+     * @param uid
+     * @param index
+     * @param req
+     * @param resp
+     * @param principal
+     */
     @PutMapping("/{uid}/{index}")
     public void putMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
         forwardRequest(index, "PUT", req, resp);
     }
 
+    /**
+     * patchMethod Controller listens at /{yourproxypath}/{uid}/{index}
+     * @param uid
+     * @param index
+     * @param req
+     * @param resp
+     * @param principal
+     */
     @PatchMapping("/{uid}/{index}")
-    public void PatchMapping(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
+    public void patchMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
         forwardRequest(index, "PATCH", req, resp);
     }
-
-
-//    @RequestMapping(value="/{uid}/{index}", method = RequestMethod.OPTIONS)
-//    public void optionsMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-//        // logger.info(uid + "/" + index);
-//        String content = "{\"methods\":[\"POST\",\"GET\",\"OPTIONS\"]}";
-//        resp.setStatus( 200 );
-//
-//        resp.addHeader( HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8" );
-//        setCorsHeaders(resp);
-//
-//        resp.setContentLength(content.length());
-//        try {
-//            resp.getWriter().write(content);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return;
-//    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
