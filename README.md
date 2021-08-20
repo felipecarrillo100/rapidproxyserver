@@ -24,11 +24,15 @@ ogc.proxy.cors.enabled=true
 ```
 
 * ogc.proxy.enabled: Enable the proxy 
-* ogc.proxy.baseurl: The url where the proxy is listening
-* ogc.proxy.baseurl3d: This implementation is for OGC 3D Tiles
+* ogc.proxy.baseurl: The url entry point where the generic proxy is listening
+* ogc.proxy.baseurl3d: The urls entry point for OGC 3D Tiles proxy
 * ogc.proxy.cors.enabled: Set to true to enable CORS.  This is required if yur web application is served from a different domain
 
 ## To use
 
 Simple install [rapidproxy](https://github.com/felipecarrillo100/rapidproxy) in your JavaScript project and create a proxy.
 Refer to the [rapidproxy](https://github.com/felipecarrillo100/rapidproxy) documentation for details.
+
+## Expected behaviour
+The server will create a proxy at the specified entry point. Make sure your client uses the same entry point.
+Client will send a request to the server.  The server will act as a rever proxy forwarding the request to the real target. Any data provided by the remote target will be returned to the client.
