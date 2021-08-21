@@ -1,5 +1,7 @@
 package io.github.felipecarrillo100;
 
+import io.github.felipecarrillo100.controllers.ProxyRequest;
+import io.github.felipecarrillo100.controllers.ProxyRequestProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +22,10 @@ class SharedConfigurationReference {
 
     @Bean(name="initializeService")
     public void helloWorld() {
-        logger.info("** Super proxy has been initialized **");
+        logger.info("** Rapidproxy 1.0.1 has been initialized **");
+        if (!ProxyRequestProvider.isSet()) {
+            ProxyRequestProvider.setProxyRequest(ProxyRequest.class);
+        }
         if (!enabled) {
             logger.info(" * Proxy currently disabled, to enable set ogc.proxy.enabled to true in your properties file");
         }

@@ -66,7 +66,7 @@ public class OGCProxy3D implements InitializingBean {
      */
     @GetMapping("/{uid}/{index}/**")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
-        forwardRequest(uid, index, "GET", req, resp);
+        forwardRequest(uid, index, "GET", req, resp, principal);
     }
 
 //    @RequestMapping(value="/{uid}/{index}/**", method = RequestMethod.OPTIONS)
@@ -90,13 +90,13 @@ public class OGCProxy3D implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("** Proxy 3D **");
+        logger.info("** Rapidproxy 3D **");
         if (enabled) {
             logger.info(" * Proxy has been enabled at: " + baseurl + "/{uid}/{index}/**");
         }
     }
 
-    private void forwardRequest(String uid, String index, String method, HttpServletRequest req, HttpServletResponse resp) {
+    private void forwardRequest(String uid, String index, String method, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         String urltarget = baseurl + "/" + uid + "/" + index;
         String fullPath = (String) req.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         String subPath = fullPath.substring(urltarget.length());
@@ -105,11 +105,12 @@ public class OGCProxy3D implements InitializingBean {
         String targetUri = "";
         String queryString = req.getQueryString();
 
-        ProxyRequest proxyRequest = new ProxyRequest(req);
+        ProxyRequest proxyRequest = ProxyRequestProvider.createProxyRequestProvider(req, index, principal);
 
-        Iterator<Map.Entry<String, String>> iterator = proxyRequest.getRequestHeaders().entrySet().iterator();
         JSONObject targets = proxyRequest.getTargets();
-        JSONObject urls = (JSONObject) targets.get("urls");
+        JSONObject urls = proxyRequest.getUrls();
+        Iterator<Map.Entry<String, String>> iterator = proxyRequest.getRequestHeaders().entrySet().iterator();
+
         if (urls != null) {
             String url = (String) urls.get(index);
             if (url != null) {

@@ -64,7 +64,7 @@ public class OGCProxy implements InitializingBean {
     @GetMapping("/{uid}/{index}")
     public void getMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
-        forwardRequest(index, "GET", req, resp);
+        forwardRequest(index, "GET", req, resp, principal);
     }
 
     /**
@@ -78,7 +78,7 @@ public class OGCProxy implements InitializingBean {
     @DeleteMapping("/{uid}/{index}")
     public void deleteMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
-        forwardRequest(index, "DELETE", req, resp);
+        forwardRequest(index, "DELETE", req, resp, principal);
     }
 
     /**
@@ -92,7 +92,7 @@ public class OGCProxy implements InitializingBean {
     @PostMapping("/{uid}/{index}")
     public void postMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
-        forwardRequest(index, "POST", req, resp);
+        forwardRequest(index, "POST", req, resp, principal);
     }
 
     /**
@@ -106,7 +106,7 @@ public class OGCProxy implements InitializingBean {
     @PutMapping("/{uid}/{index}")
     public void putMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
-        forwardRequest(index, "PUT", req, resp);
+        forwardRequest(index, "PUT", req, resp, principal);
     }
 
     /**
@@ -120,27 +120,28 @@ public class OGCProxy implements InitializingBean {
     @PatchMapping("/{uid}/{index}")
     public void patchMethod(@PathVariable String uid, @PathVariable String index, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         // logger.info(uid + "/" + index);
-        forwardRequest(index, "PATCH", req, resp);
+        forwardRequest(index, "PATCH", req, resp, principal);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("** Super proxy **");
+        logger.info("** Rapidproxy **");
         if (enabled) {
             logger.info(" * Proxy has been enabled at: " + baseurl + "/{uid}/{index}");
         }
     }
 
-    private void forwardRequest(String index, String method, HttpServletRequest req, HttpServletResponse resp) {
+    private void forwardRequest(String index, String method, HttpServletRequest req, HttpServletResponse resp, Principal principal) {
         final boolean hasoutbody = (method.equals("POST") || method.equals("PATCH") || method.equals("PUT"));
         String targetUri = "";
         String queryString = req.getQueryString();
 
-        ProxyRequest proxyRequest = new ProxyRequest(req);
+        ProxyRequest proxyRequest = ProxyRequestProvider.createProxyRequestProvider(req, index, principal);
 
-        Iterator<Map.Entry<String, String>> iterator = proxyRequest.getRequestHeaders().entrySet().iterator();
         JSONObject targets = proxyRequest.getTargets();
-        JSONObject urls = (JSONObject) targets.get("urls");
+        JSONObject urls = proxyRequest.getUrls();
+        Iterator<Map.Entry<String, String>> iterator = proxyRequest.getRequestHeaders().entrySet().iterator();
+
         if (urls != null) {
             String url = (String) urls.get(index);
             if (url != null) {
