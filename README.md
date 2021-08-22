@@ -60,7 +60,6 @@ Now create a configuration bean to tell set the ProxyRequestProvider to your new
 public class AppConfig {
     @Bean(name="initializeCustomProxy")
     public void helloWorld() {
-        System.out.println("CustomProxyRequest yy");
         ProxyRequestProvider.setProxyRequest(CustomProxyRequest.class);
     }
 }
